@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget
 from login import Login
 from home import Home
 from info import Info
+from announce import Announce
 from graph import Graph  # 导入Graph页面
 
 class MainWindow(QMainWindow):
@@ -19,12 +20,14 @@ class MainWindow(QMainWindow):
         self.home = Home()
         self.info = Info()
         self.graph = Graph()
+        self.announce = Announce()
 
         # 添加到堆栈（索引依次为 0、1、2、3）
         self.stack.addWidget(self.login)
         self.stack.addWidget(self.home)
         self.stack.addWidget(self.info)
         self.stack.addWidget(self.graph)
+        self.stack.addWidget(self.announce)
 
         # 默认显示登录页
         self.stack.setCurrentIndex(0)
@@ -35,12 +38,14 @@ class MainWindow(QMainWindow):
         self.home.log_out_request.connect(self.handle_go_to_login)
         # 首页 → Info
         self.home.switch_to_info.connect(self.handle_go_to_info)
+        self.home.switch_to_announce.connect(self.handle_go_to_announce)
         # Info → 首页
         self.info.back_to_home.connect(self.handle_back_to_home)
         # Info → Graph
         self.info.switch_to_graph.connect(self.handle_go_to_graph)
         # Graph → Info
         self.graph.back_to_info.connect(self.handle_back_to_info)
+        self.announce.back_to_home.connect(self.handle_back_to_home)
 
     # -------------------------- 页面切换槽函数 --------------------------
     def handle_go_to_home(self, role: str):
@@ -52,6 +57,9 @@ class MainWindow(QMainWindow):
 
     def handle_go_to_info(self):
         self.stack.setCurrentWidget(self.info)
+
+    def handle_go_to_announce(self):
+        self.stack.setCurrentWidget(self.announce)
 
     def handle_back_to_home(self):
         self.stack.setCurrentWidget(self.home)

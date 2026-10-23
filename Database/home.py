@@ -17,6 +17,7 @@ stack = deque()
 class Home(QWidget):
     
     switch_to_info = pyqtSignal()
+    switch_to_announce = pyqtSignal()
     log_out_request = pyqtSignal()
     
     def __init__(self):
@@ -586,8 +587,8 @@ class Home(QWidget):
         self.switch_to_info.emit()
         
     def on_click_i(self):
-        print("【announcement】触发")
-        
+        self.switch_to_announce.emit()
+
     def on_click_j(self):
         global stack
         msg_box = QMessageBox(self)
